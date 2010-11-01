@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Author: Tomasz Zielinski
+# Based on: http://stackoverflow.com/questions/1259873/how-can-i-use-emacs-flymake-mode-for-python-with-pyflakes-and-pylint-checking-cod (author: 
+#    -- which I believe is too short&trivial to be copyrightable at all :)
+
+# This script has to be executable: chmod +x!
+# Also, in Ubuntu, it has to be added to PATH in /etc/environment - adding it to .bashrc
+# only changes PATH for things run from shell 
+# (https://help.ubuntu.com/community/EnvironmentVariables#System-wide environment variables)
+
+
+
+# Django lint taken from: http://chris-lamb.co.uk/projects/django-lint/
+# and installed as a system Python lib using its own setup.py
+# pyflakes, pylint and pep8 installed with `pip install ...`
+
+# PEP8 ignores:
+# E501 - line too long
+# E202 - whitespace before )
+# E291 - trailing whitespace
+# E301,E302 - missing 1/2 blank lines
+# E225 - missing whitespace around operator
+
+# `nice` decreases process' priority, increasing emacs responsiveness
+
+# Have to adjust django-lint output to Flymake requirements. Until then, commenting this out.
+#nice django-lint "$1"
+
+#nice epylint "$1" 2>/dev/null
+nice pyflakes "$1"
+nice pep8 --ignore=E501,E202,W291,E301,E302,E225 --repeat "$1"
+true
+
+
