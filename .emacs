@@ -3,15 +3,20 @@
 
 ;; http://xahlee.org/emacs/emacs_make_modern.html
 
+(tool-bar-mode -1) ;; remove toolbar - it's only wasting screen space
+
 (add-to-list 'load-path "~/.emacs.d/")
 
 ;; Python.el config (from: http://www.loveshack.ukfsn.org/emacs/python.el) - !!note that Emacs22/23's default python.el has to be removed!!
-(require 'python)
+;;(require 'python)
+;; ^^^ I RENAMED THAT python.el TO python-old.el, AS Emacs 23.3 should have a newer, nicer version of it bundled with itself  
+
 ; Those settings are not needed in with a working python.el, but having them here DO help with some .py files
 ; that otherwise use 8-chat *tabs*
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default py-indent-offset 4)  ;; allegedly python-mode.el but let's try 
+(setq sgml-basic-offset 4)  ;; indentation for html (http://stackoverflow.com/questions/2076783/cant-change-emacss-default-indentation-between-html-tags/2077471#2077471)
 
 ;; Pymacs and Ropemacs
 (require 'pymacs)
@@ -61,10 +66,23 @@
 (setq truncate-partial-width-windows nil) ;; make side by side buffers function the same as the main window
 
 ;; (desktop-save-mode 1) ;; save session - http://www.emacswiki.org/emacs/DeskTop   <<<<< Opening files is so SLOOOOW that it's much better to open needed ones manually
-(setq history-length 250)  ;; remember more than 10 last files
+;; (setq history-length 250)  ;; remember more than 10 last files
 
-(require 'whitespace) ;; show spaces, tabs, newlines
-
+(require 'whitespace) ;; show spaces, tabs, newlines (present in Emacs 23 std scripts)
+(global-whitespace-mode 1) ;; activate whitespace display (http://www.emacswiki.org/emacs/WhiteSpace)
+(setq whitespace-style (quote
+  ( spaces tabs newline space-mark tab-mark newline-mark)))  ;; remove all the bells&whistles, leaving only useful stuff (http://xahlee.org/emacs/whitespace-mode.html)
+(setq whitespace-display-mappings
+ '(
+   (space-mark 32 [183] [46]) ; normal space
+   (space-mark 160 [164] [95])
+   (space-mark 2208 [2212] [95])
+   (space-mark 2336 [2340] [95])
+   (space-mark 3616 [3620] [95])
+   (space-mark 3872 [3876] [95])
+   (newline-mark 10 [182 10]) ; newlne
+   (tab-mark 9 [9655 9] [92 9]) ; tab
+)) ;; Modify EOL char from $ to ¶ and some other chars to more verbose ones (http://xahlee.org/emacs/whitespace-mode.html)
 
 (require 'autopair) ;; Automatically closes brackets
 (autopair-global-mode) ;; to enable in all buffers
