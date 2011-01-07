@@ -123,6 +123,9 @@
             temp-file
             (file-name-directory buffer-file-name))))
       (list "pycheckall" (list local-file))))
+
+  (setq flymake-allowed-file-name-masks ()) ;; Idea for emptying this list taken from: http://stackoverflow.com/questions/4095153/how-to-disable-emacs-flymake-for-html-mode
+
   (add-to-list 'flymake-allowed-file-name-masks
            '("\\.py\\'" flymake-pyflakes-init)))
 (add-hook 'find-file-hook 'flymake-find-file-hook)
